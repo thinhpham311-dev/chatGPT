@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import GlobalStyles from '@/styles/GlobalStyles'
 import StyledComponentsRegistry from '@/lib/registry'
-
+import { ReduxProvider } from "@/redux/provider"
 
 export const metadata: Metadata = {
   title: 'ChatGPT',
@@ -18,8 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <GlobalStyles />
-          {children}
+          <ReduxProvider>
+            <GlobalStyles />
+            {children}
+          </ReduxProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

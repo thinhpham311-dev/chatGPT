@@ -4,15 +4,19 @@ import Image from 'next/image'
 import { HeaderWrapper } from './styles'
 import { Button } from "@/components"
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
-import { useSelector, useDispatch } from 'react-redux';
-import { modalState$ } from '@/redux/selectors';
-import { toggleModal } from '../../redux/actions';
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '@/redux/store'
+import { AppDispatch } from '@/redux/store'
+import { toggleLayout } from '@/redux/store/features/stateSlice'
+
 
 const Header = () => {
-    const dispatch = useDispatch();
-    const { isShow } = useSelector(modalState$);
+    const dispatch = useDispatch<AppDispatch>()
+
+    const { isShow } = useAppSelector(state => state.stateSlice)
+
     const handleToggle = () => {
-        dispatch(toggleModal());
+        dispatch(toggleLayout());
     }
 
     return (

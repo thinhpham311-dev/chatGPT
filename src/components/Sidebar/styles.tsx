@@ -5,7 +5,7 @@ interface sidebarProps {
 }
 
 const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
-    tw`h-full bg-black text-white flex flex-col justify-between shadow-lg shadow-indigo-500/40`,
+    tw`h-full bg-black text-white flex flex-col justify-between shadow-lg shadow-indigo-500/40 `,
     !$isShow ? tw`w-[300px]` : tw`w-[50px]`,
     css`
         .header-sidebar{

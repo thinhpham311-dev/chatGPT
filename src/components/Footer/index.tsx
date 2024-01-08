@@ -9,7 +9,7 @@ const Footer = () => (
     <FooterWrapper>
         <div className="footer-inner">
             <Input type="text" placeholder='Message ChatGPT Demo...' $outline="dark" $isFull />
-            <Button type="button" $variant='system' $isSmall data-c-tooltip="I’m the c-tooltip text"><IoIosSend size={25} /><span className="tooltiptext">Send</span></Button>
+            <Button type="button" $variant='system' $isSmall ><IoIosSend size={25} /><span>Send</span></Button>
         </div>
     </FooterWrapper>
 )

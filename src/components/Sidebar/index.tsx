@@ -1,28 +1,61 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components'
 import { SidebarWrapper } from './styles'
-import { Button } from "@/components"
-import { IoHome, IoSave, IoRocket, IoChatboxOutline } from "react-icons/io5";
+import { IoSave, IoRocket, IoChatboxOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { SiPreact } from "react-icons/si";
 import { CiLogout } from "react-icons/ci";
-import { useSelector } from 'react-redux';
-import { modalState$ } from '@/redux/selectors';
-
-import tw, { styled, css, theme } from 'twin.macro'
+import { useDispatch } from 'react-redux'
+import { AppDispatch, useAppSelector } from '@/redux/store'
+import { getConversationsList, postCreateConversation } from '@/redux/store/features/conversationSlice'
+import { Conversation } from '@prisma/client'
+import { v4 as uuidv4 } from 'uuid'
 
 const Sidebar = () => {
-    const { isShow } = useSelector(modalState$);
+
+    const router = useRouter()
+    const dispatch = useDispatch<AppDispatch>()
+    const { isShow } = useAppSelector((state) => state.stateSlice)
+    const { conversations, loading } = useAppSelector((state) => state.conversationState)
+
+    useEffect(() => {
+        dispatch(getConversationsList())
+    }, [dispatch])
+
+
+    const onEditMessage = (id: string) => {
+        router.push(`/c/${id}`)
+    }
+
+    const onCreateConversation = async () => {
+        const conversation = {
+            id: uuidv4(),
+            title: "abc",
+            userId: 1,
+            messageId: 1
+        } as Conversation
+        await postCreateConversation(conversation)
+        dispatch(getConversationsList())
+        router.push(`/c/${conversation.id}`)
+    }
+
     return (
         <SidebarWrapper $isShow={isShow}>
             <div className="header-sidebar">
                 <div className="header-sidebar--logo"><SiPreact size={30} /><span className="tooltiptext">New Chat</span></div>
-                <Button type='button' $isSmall><FaRegEdit size={25} /></Button>
+                <Button type='button' $isSmall onClick={onCreateConversation}><FaRegEdit size={25} /> </Button>
             </div>
             <div className="list-typing-moment">
                 <ul>
-                    <li><Button type='button' $isSmall $isFull ><IoChatboxOutline size={25} /><span className="tooltiptext">What is Programing ?</span></Button></li>
+                    {
+                        !loading ?
+                            conversations?.map((item: Conversation) => {
+                                return <li key={item.id}><Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.id)}><IoChatboxOutline size={25} /><span className="tooltiptext">{item.title}</span></Button></li>
+                            }) : <p>loading...</p>
+                    }
                 </ul>
             </div>
             <div className="footer-sidebar">
