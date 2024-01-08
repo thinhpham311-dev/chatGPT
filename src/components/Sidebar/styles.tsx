@@ -9,10 +9,13 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
     !$isShow ? tw`w-[300px]` : tw`w-[50px]`,
     css`
         .header-sidebar{
-            ${tw`flex items-center flex-wrap xl:justify-between lg:justify-between md:justify-between justify-center border-b-[0.5px] border-white `}
+            ${tw` flex items-center flex-wrap xl:justify-between lg:justify-between md:justify-between justify-center border-b-[0.5px] border-white `}
             ${!$isShow ? tw`h-[50px]` : tw`h-[auto]`},
             &--logo{
                 ${tw`flex gap-x-3 items-center p-2 justify-center`}
+            }
+            &--control{
+                ${tw`relative h-[45px] w-[50px]`}
             }
             button, &--logo{
             ${!$isShow ? tw`w-[auto]` : tw`w-full`},
@@ -20,6 +23,9 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
         }
         .list-typing-moment{
             ${tw`flex-1 overflow-y-auto overflow-x-hidden`}
+            ul{
+                ${tw`relative h-full w-full`}
+            }
         }
         .footer-sidebar{
             ${tw`border-t-[0.5px] border-white `}

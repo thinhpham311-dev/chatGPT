@@ -8,10 +8,10 @@ export async function GET(request: Request) {
         if (request.method !== "GET") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
-        const conversations = await prisma.conversation.findMany({
+        const messages = await prisma.message.findMany({
             orderBy: { createdAt: 'desc' },
         })
-        return NextResponse.json({ data: conversations }, { status: 200 });
+        return NextResponse.json({ data: messages }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
     }
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
 
-        const saveConversation = await prisma.conversation.create({
+        const saveConversation = await prisma.message.create({
             data: {
                 ...data
             }

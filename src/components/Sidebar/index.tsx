@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components'
+import { Button, Loading } from '@/components'
 import { SidebarWrapper } from './styles'
 import { IoSave, IoRocket, IoChatboxOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
@@ -10,8 +10,9 @@ import { SiPreact } from "react-icons/si";
 import { CiLogout } from "react-icons/ci";
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@/redux/store'
-import { getConversationsList, postCreateConversation } from '@/redux/store/features/conversationSlice'
+import { getConversationsList } from '@/redux/store/slices/conversationSlice'
 import { Conversation } from '@prisma/client'
+import { apiPostCreateConversation } from '@/services/ConversationService'
 import { v4 as uuidv4 } from 'uuid'
 
 const Sidebar = () => {
@@ -19,7 +20,7 @@ const Sidebar = () => {
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
     const { isShow } = useAppSelector((state) => state.stateSlice)
-    const { conversations, loading } = useAppSelector((state) => state.conversationState)
+    const { conversations, loading } = useAppSelector((state) => state.conversationsState)
 
     useEffect(() => {
         dispatch(getConversationsList())
@@ -32,29 +33,30 @@ const Sidebar = () => {
 
     const onCreateConversation = async () => {
         const conversation = {
-            id: uuidv4(),
-            title: "abc",
+            code: uuidv4(),
+            title: "New Messages",
             userId: 1,
-            messageId: 1
         } as Conversation
-        await postCreateConversation(conversation)
+        await apiPostCreateConversation(conversation)
         dispatch(getConversationsList())
-        router.push(`/c/${conversation.id}`)
+        !loading && router.push(`/c/${conversation.code}`)
     }
 
     return (
         <SidebarWrapper $isShow={isShow}>
             <div className="header-sidebar">
                 <div className="header-sidebar--logo"><SiPreact size={30} /><span className="tooltiptext">New Chat</span></div>
-                <Button type='button' $isSmall onClick={onCreateConversation}><FaRegEdit size={25} /> </Button>
+                <div className="header-sidebar--control">
+                    {!loading ? <Button type='button' $isSmall onClick={onCreateConversation}><FaRegEdit size={25} /> </Button> : <Loading color="dark" isIcon />}
+                </div>
             </div>
             <div className="list-typing-moment">
                 <ul>
                     {
                         !loading ?
                             conversations?.map((item: Conversation) => {
-                                return <li key={item.id}><Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.id)}><IoChatboxOutline size={25} /><span className="tooltiptext">{item.title}</span></Button></li>
-                            }) : <p>loading...</p>
+                                return <li key={item.id}><Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code)}><IoChatboxOutline size={25} /><span className="tooltiptext">{item.title}</span></Button></li>
+                            }) : <Loading color="dark" />
                     }
                 </ul>
             </div>
@@ -70,7 +72,6 @@ const Sidebar = () => {
                                 <small className="tooltiptext">thinhpham67ag@gmail.com</small>
                             </div>
                         </div>
-
                     </li>
                     <li>  <Button type='button' $isSmall $isFull ><IoSave size={25} /><span className="tooltiptext">Saved</span></Button></li>
                     <li>  <Button type='button' $isSmall $isFull ><IoRocket size={25} /><span className="tooltiptext">Update to Pro</span></Button></li>

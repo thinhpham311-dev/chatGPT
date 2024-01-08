@@ -4,7 +4,7 @@ import axios from "axios"
 interface apiservice {
     method: string,
     url: string,
-    param?: Conversation | User | Message
+    param?: any
 }
 
 const ApiService = {

@@ -7,7 +7,7 @@ import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '@/redux/store'
 import { AppDispatch } from '@/redux/store'
-import { toggleLayout } from '@/redux/store/features/stateSlice'
+import { toggleLayout } from '@/redux/store/slices/stateSlice'
 
 
 const Header = () => {

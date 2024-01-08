@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import conversationState from './features/conversationSlice'
-import stateSlice from './features/stateSlice';
+import conversationsState from './slices/conversationSlice'
+import conversationState from './slices/conversationSlice'
+import stateSlice from './slices/stateSlice';
 import { TypedUseSelectorHook } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 export const store = configureStore({
     reducer: {
+        conversationsState,
         conversationState,
         stateSlice
     },

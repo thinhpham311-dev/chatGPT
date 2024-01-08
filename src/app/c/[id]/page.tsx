@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
-
 import { MessageList } from "@/components"
 
 
 const MessageDetail = () => {
+
 
 
     return (
