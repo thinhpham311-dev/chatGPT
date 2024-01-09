@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Loading } from "@/components"
+import { Loading, Card } from "@/components"
 import { MessageListWrapper } from './styles'
 import { useAppSelector } from '@/redux/store'
 
@@ -12,8 +12,13 @@ const MessageList = () => {
         <MessageListWrapper>
             {loading && <Loading color="light" />}
             <div className="messageList-inner">
-                <ul className="messageList-inner-suggest">
-                    <li></li>
+                <ul className="messageList-inner--content">
+                    <li>
+                        <Card isBot />
+                    </li>
+                    <li>
+                        <Card />
+                    </li>
                 </ul>
             </div>
         </MessageListWrapper>

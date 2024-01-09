@@ -16,7 +16,15 @@ export async function apiGetConversation(param: Conversation) {
     })
 }
 
-export async function apiPostCreateConversation(param: Conversation) {
+export async function apiCreateConversation(param: Conversation) {
+    return ApiService.fetchData({
+        method: 'post',
+        url: '/api/conversation',
+        param
+    })
+}
+
+export async function apiDeleteConversation(param: Conversation) {
     return ApiService.fetchData({
         method: 'post',
         url: '/api/conversation',

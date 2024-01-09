@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation'
 import { Button, Loading } from '@/components'
 import { SidebarWrapper } from './styles'
 import { IoSave, IoRocket, IoChatboxOutline } from "react-icons/io5";
+import { VscEllipsis } from "react-icons/vsc";
 import { FaRegEdit } from "react-icons/fa";
 import { SiPreact } from "react-icons/si";
 import { CiLogout } from "react-icons/ci";
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@/redux/store'
-import { getConversationsList } from '@/redux/store/slices/conversationSlice'
+import { getConversationsList, postAddConversation } from '@/redux/store/slices/conversationSlice'
 import { Conversation } from '@prisma/client'
-import { apiPostCreateConversation } from '@/services/ConversationService'
 import { v4 as uuidv4 } from 'uuid'
 
 const Sidebar = () => {
@@ -31,15 +31,14 @@ const Sidebar = () => {
         router.push(`/c/${id}`)
     }
 
-    const onCreateConversation = async () => {
+    const onCreateConversation = () => {
         const conversation = {
             code: uuidv4(),
             title: "New Messages",
             userId: 1,
         } as Conversation
-        await apiPostCreateConversation(conversation)
-        dispatch(getConversationsList())
-        !loading && router.push(`/c/${conversation.code}`)
+        dispatch(postAddConversation(conversation))
+        router.push(`/c/${conversation.code}`)
     }
 
     return (
@@ -55,7 +54,20 @@ const Sidebar = () => {
                     {
                         !loading ?
                             conversations?.map((item: Conversation) => {
-                                return <li key={item.id}><Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code)}><IoChatboxOutline size={25} /><span className="tooltiptext">{item.title}</span></Button></li>
+                                return <li key={item.id} className="conversation-item">
+                                    <div className="conversation-item--title">
+                                        <Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code)}>
+                                            <IoChatboxOutline size={25} />
+                                            <div className="text">
+                                                <span className="tooltiptext">{item.title}</span>
+                                                <br /><small>{item.createdAt?.toString()}</small>
+                                            </div>
+                                        </Button>
+                                    </div>
+                                    <div className="conversation-item--setting">
+                                        <Button type="button" $isSmall><VscEllipsis /></Button>
+                                    </div>
+                                </li>
                             }) : <Loading color="dark" />
                     }
                 </ul>

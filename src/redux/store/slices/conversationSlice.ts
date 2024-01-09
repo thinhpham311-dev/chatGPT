@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetConversations, apiGetConversation } from '@/services/ConversationService'
+import { apiGetConversations, apiCreateConversation, apiDeleteConversation } from '@/services/ConversationService'
 import { RootState } from "@/redux/store";
 import { Conversation } from "@prisma/client";
 
@@ -25,11 +25,18 @@ export const getConversationsList = createAsyncThunk(
     }
 )
 
-export const getConversationById = createAsyncThunk(
-    "conversation/conversationById",
+export const postAddConversation = createAsyncThunk(
+    "conversation/addConversation",
     async (data: Conversation) => {
-        const response: any = await apiGetConversation(data)
+        const response: any = await apiCreateConversation(data)
         return response.data
+    }
+)
+
+export const postDeleteConversation = createAsyncThunk(
+    "conversation/deleteConversation",
+    async (data: Conversation) => {
+        const response: any = await apiDeleteConversation(data)
     }
 )
 
@@ -37,11 +44,7 @@ export const getConversationById = createAsyncThunk(
 export const conversation = createSlice({
     name: "conversation",
     initialState,
-    reducers: {
-        createConversation: (state: any, action: PayloadAction<Conversation>) => {
-            state.conversations = [{ action }, ...state.conversations]
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getConversationsList.pending, (state) => {
             state.loading = true;
@@ -55,22 +58,23 @@ export const conversation = createSlice({
             state.conversations = [];
             state.error = action.error.message;
         });
-        builder.addCase(getConversationById.pending, (state) => {
+        builder.addCase(postAddConversation.pending, (state) => {
             state.loading = true;
         });
-        builder.addCase(getConversationById.fulfilled, (state, action: PayloadAction<Conversation>) => {
+        builder.addCase(postAddConversation.fulfilled, (state, action: PayloadAction<Conversation>) => {
             state.loading = false;
-            state.conversation = action.payload;
+            state.conversations?.unshift(action.payload);
         });
-        builder.addCase(getConversationById.rejected, (state, action) => {
+        builder.addCase(postAddConversation.rejected, (state, action) => {
             state.loading = false;
-            state.conversation = null;
+            state.conversations = [];
             state.error = action.error.message;
         });
     },
 })
 
+// To able to use reducers we need to export them.
+
 
 export const conversationsSelector = (state: RootState) => state.conversationsState;
-export const conversationSelector = (state: RootState) => state.conversationState;
 export default conversation.reducer

@@ -28,8 +28,11 @@ const Button = styled.button<ButtonProps>(({ $variant, $isSmall, $outline, $isFu
     // Conditional props can be used
     $isSmall && tw`text-sm p-2`,
 
-    $isFull && tw`w-full`
+    $isFull && tw`w-full`,
 
+    css`.text{
+        ${tw`text-left`}
+    }`
 ])
 
 export default Button 

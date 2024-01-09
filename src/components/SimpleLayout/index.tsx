@@ -1,10 +1,8 @@
 'use client'
 import React, { useEffect } from 'react'
-import { Sidebar, Context, Header, Footer, Loading } from "@/components"
+import { Sidebar, Context, Header, Footer } from "@/components"
 import { SimpleLayoutWrapper } from './styles'
-import { useAppSelector, AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { getConversationById } from "@/redux/store/slices/conversationSlice";
+import { useAppSelector } from "@/redux/store";
 import { Conversation } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
@@ -12,24 +10,19 @@ import { useParams, useRouter } from "next/navigation";
 const SimpleLayout = ({ children }: { children: React.ReactNode }) => {
     const { id } = useParams()
     const router = useRouter()
-    const dispatch = useDispatch<AppDispatch>()
-
-    const { conversation } = useAppSelector((state) => state.conversationState)
+    const { conversations } = useAppSelector((state) => state.conversationsState)
 
     useEffect(() => {
-        if (id) {
-            dispatch(getConversationById({ code: id } as Conversation))
-        } else {
-            router.push('/')
-        }
-    }, [dispatch, id])
-
-    useEffect(() => {
-        const data: Conversation | null = conversation
-        if (id !== data?.code) {
+        const data: Conversation[] | undefined = conversations
+        const conversation: any = data?.find((item) => item.code === id)
+        if (conversations && conversations.length <= 0) {
             router.push("/")
         }
-    }, [conversation])
+        if (conversation && conversation.code !== id) {
+            router.push("/")
+        }
+    }, [conversations])
+
     return (
         <SimpleLayoutWrapper >
             <Sidebar />

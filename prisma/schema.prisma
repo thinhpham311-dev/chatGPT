@@ -15,12 +15,16 @@ model User {
   image         String
   createdAt     DateTime       @default(now())
   Conversations Conversation[]
+  Message       Message[]
 }
 
 model Message {
   id             Int           @id @default(autoincrement())
   content        String
+  status         Boolean
   createdAt      DateTime      @default(now())
+  userId         Int?
+  User           User?         @relation(fields: [userId], references: [id])
   conversationId Int?
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
 }

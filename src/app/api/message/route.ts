@@ -24,12 +24,12 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
 
-        const saveConversation = await prisma.message.create({
+        const saveMessage = await prisma.message.create({
             data: {
                 ...data
             }
         })
-        return NextResponse.json({ data: saveConversation }, { status: 200 });
+        return NextResponse.json({ data: saveMessage }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
     }
