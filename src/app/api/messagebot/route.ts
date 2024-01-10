@@ -14,9 +14,11 @@ export async function GET(request: Request) {
         });
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "system", content: "How are you?. Today." },
-            { role: "user", content: "How are you?. Today." },
-            { role: "assistant", content: "How are you?. Today." }],
+            messages: [
+                { role: "system", content: "How are you?. Today." },
+                { role: "user", content: "How are you?. Today." },
+                { role: "assistant", content: "How are you?. Today." }
+            ],
         });
 
         return NextResponse.json({ data: completion }, { status: 200 });

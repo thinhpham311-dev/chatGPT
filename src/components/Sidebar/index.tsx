@@ -11,7 +11,7 @@ import { SiPreact } from "react-icons/si";
 import { CiLogout } from "react-icons/ci";
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@/redux/store'
-import { getConversationsList, postAddConversation, getConversationIdByCode } from '@/redux/store/slices/conversationSlice'
+import { getConversationsList, postAddConversation, getConversationByCode } from '@/redux/store/slices/conversationSlice'
 import { Conversation } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -21,16 +21,16 @@ const Sidebar = () => {
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
     const { isShow } = useAppSelector((state) => state.stateSlice)
-    const { conversations, actionLoading, loading } = useAppSelector((state) => state.conversationsState)
+    const { conversations, loadingAction, loadingList } = useAppSelector((state) => state.conversationsState)
 
     useEffect(() => {
         dispatch(getConversationsList())
     }, [dispatch])
 
 
-    const onEditMessage = (code: string, id: number) => {
-        dispatch(getConversationIdByCode({ id }))
-        router.push(`/c/${code}${id}`)
+    const onEditMessage = (code: string) => {
+        dispatch(getConversationByCode({ code } as Conversation))
+        router.push(`/c/${code}`)
     }
 
     const onCreateConversation = () => {
@@ -48,17 +48,17 @@ const Sidebar = () => {
             <div className="header-sidebar">
                 <div className="header-sidebar--logo"><SiPreact size={30} /><span className="tooltiptext">New Chat</span></div>
                 <div className="header-sidebar--control">
-                    {!actionLoading ? <Button type='button' $isSmall onClick={onCreateConversation}><FaRegEdit size={25} /> </Button> : <Loading color="dark" isIcon />}
+                    {!loadingAction ? <Button type='button' $isSmall onClick={onCreateConversation}><FaRegEdit size={25} /> </Button> : <Loading color="dark" isIcon />}
                 </div>
             </div>
             <div className="list-typing-moment">
                 <ul>
                     {
-                        !actionLoading && !loading ?
+                        !loadingAction && !loadingList ?
                             conversations?.map((item: Conversation) => {
                                 return <li key={item.id} className="conversation-item">
                                     <div className="conversation-item--title">
-                                        <Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code, item.id)}>
+                                        <Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code)}>
                                             <IoChatboxOutline size={30} />
                                             {!isShow && <div className="text">
                                                 <span className="tooltiptext">{item.title}</span>

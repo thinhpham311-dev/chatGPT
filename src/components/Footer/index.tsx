@@ -42,7 +42,7 @@ const Footer = () => {
             <form onSubmit={handleSendMessage} className="footer-inner">
                 <Input type="text" onChange={handleEnterMessage} placeholder='Message ChatGPT Demo...' $outline="dark" $isFull />
                 <div className='footer-inner--btn'>
-                    <Button type="submit" $variant='system' $isSmall>{!loadingAction ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
+                    <Button type="submit" $variant='system' $isSmall disabled={!message}>{!loadingAction ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
                 </div>
             </form>
         </FooterWrapper>

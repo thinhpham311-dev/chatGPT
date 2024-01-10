@@ -6,14 +6,8 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 
 const Home = () => {
-  const router = useRouter()
-  const pathName = usePathname()
 
-  useEffect(() => {
-    if (pathName === "/c") {
-      router.push("/")
-    }
-  }, [])
+
 
   return (
     <MessageList />
