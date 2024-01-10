@@ -9,7 +9,7 @@ interface ButtonProps {
 
 const Button = styled.button<ButtonProps>(({ $variant, $isSmall, $outline, $isFull }) => [
     // The common button styles added with the tw import
-    tw` px-8 py-2 transition-all rounded-full duration-500 hover:opacity-70 flex items-center gap-x-2`,
+    tw` px-8 py-2 transition-all relative rounded-full duration-500 hover:opacity-70 disabled:opacity-70 flex items-center gap-x-3`,
 
     // Use props to conditionally style your components
     $variant === 'system' && tw`!bg-cyan-700 text-white  border-[0.5px]  border-cyan-700`,
@@ -31,7 +31,7 @@ const Button = styled.button<ButtonProps>(({ $variant, $isSmall, $outline, $isFu
     $isFull && tw`w-full`,
 
     css`.text{
-        ${tw`text-left`}
+        ${tw`text-left inline-grid`}
     }`
 ])
 

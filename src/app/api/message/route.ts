@@ -9,9 +9,11 @@ export async function GET(request: Request) {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
         const messages = await prisma.message.findMany({
-            orderBy: { createdAt: 'desc' },
+            orderBy: { createdAt: 'asc' },
         })
+
         return NextResponse.json({ data: messages }, { status: 200 });
+
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
     }

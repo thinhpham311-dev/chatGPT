@@ -5,15 +5,17 @@ import { Conversation } from "@prisma/client";
 
 export interface conversationState {
     loading: boolean;
+    actionLoading: boolean;
     conversations: Conversation[] | undefined;
-    conversation: Conversation | null;
+    conversationId: number | null;
     error: string | undefined;
 }
 
 const initialState: conversationState = {
     loading: false,
-    conversation: null,
+    actionLoading: false,
     conversations: [],
+    conversationId: null,
     error: undefined,
 }
 
@@ -44,7 +46,11 @@ export const postDeleteConversation = createAsyncThunk(
 export const conversation = createSlice({
     name: "conversation",
     initialState,
-    reducers: {},
+    reducers: {
+        getConversationIdByCode: (state: any, action: PayloadAction<{ id: number }>) => {
+            state.conversationId = action.payload.id
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getConversationsList.pending, (state) => {
             state.loading = true;
@@ -59,14 +65,14 @@ export const conversation = createSlice({
             state.error = action.error.message;
         });
         builder.addCase(postAddConversation.pending, (state) => {
-            state.loading = true;
+            state.actionLoading = true;
         });
         builder.addCase(postAddConversation.fulfilled, (state, action: PayloadAction<Conversation>) => {
-            state.loading = false;
+            state.actionLoading = false;
             state.conversations?.unshift(action.payload);
         });
         builder.addCase(postAddConversation.rejected, (state, action) => {
-            state.loading = false;
+            state.actionLoading = false;
             state.conversations = [];
             state.error = action.error.message;
         });
@@ -74,7 +80,7 @@ export const conversation = createSlice({
 })
 
 // To able to use reducers we need to export them.
-
+export const { getConversationIdByCode } = conversation.actions;
 
 export const conversationsSelector = (state: RootState) => state.conversationsState;
 export default conversation.reducer

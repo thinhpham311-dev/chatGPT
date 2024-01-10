@@ -5,14 +5,16 @@ import { Loading } from "@/components"
 import { SiPreact } from "react-icons/si";
 import { CardWrapper } from './styles'
 import { useAppSelector } from '@/redux/store'
+import { Message } from '@prisma/client';
 
 interface cardProps {
-    isBot?: Boolean
+    isBot?: Boolean,
+    message: Message
 }
 
-const Card = ({ isBot }: cardProps) => {
+const Card = ({ isBot, message }: cardProps) => {
 
-    const { loading } = useAppSelector((state) => state.conversationsState)
+    const { content, createdAt } = message
 
     return (
         <CardWrapper>
@@ -26,8 +28,8 @@ const Card = ({ isBot }: cardProps) => {
 
                 <div className="card-inner--content">
                     <p className="card-inner--content--title">{isBot ? "bot" : "Jonathan Reinink"}</p>
-                    <small className="card-inner--content--timeline">Aug 18</small>
-                    <p className="card-inner--content--message">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    <small className="card-inner--content--timeline">{createdAt.toString()}</small>
+                    <p className="card-inner--content--message">{content}</p>
                 </div>
             </div>
         </CardWrapper>
