@@ -4,20 +4,23 @@ import { OpenAI } from "openai";
 const apiKey = process.env.OPENAI_API_KEY as string
 const organization = process.env.OPENAI_ORGANIZATION as string
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
 
     try {
-
+        const data = await request.json()
         const openai = new OpenAI({
             apiKey,
             organization
         });
+        if (request.method !== "POST") {
+            return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
+        }
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: "system", content: "How are you?. Today." },
-                { role: "user", content: "How are you?. Today." },
-                { role: "assistant", content: "How are you?. Today." }
+                { role: "system", ...data },
+                { role: "user", ...data },
+                { role: "assistant", ...data }
             ],
         });
 

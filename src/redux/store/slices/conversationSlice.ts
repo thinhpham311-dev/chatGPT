@@ -75,7 +75,7 @@ export const conversation = createSlice({
         });
         builder.addCase(getConversationByCode.fulfilled, (state, action: PayloadAction<Conversation>) => {
             state.loadingFirst = false;
-            state.conversationId = action.payload.id;
+            state.conversationId = action.payload?.id;
         });
         builder.addCase(getConversationByCode.rejected, (state, action) => {
             state.loadingFirst = false;

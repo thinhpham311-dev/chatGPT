@@ -15,6 +15,7 @@ const MessageList = () => {
     const { messageChats } = useAppSelector((state) => state.messageChatsState)
     const { conversationId, loadingFirst } = useAppSelector((state) => state.conversationsState)
 
+
     useEffect(() => {
         dispatch(getMessageChatsList())
         dispatch(getConversationByCode({ code } as Conversation))
@@ -30,7 +31,7 @@ const MessageList = () => {
                             conversationId && messageChats?.filter((item) => item.conversationId === conversationId).reverse().map((item) => {
                                 return (
                                     <li key={item.id}>
-                                        <Card message={item} isBot />
+                                        <Card message={item} isBot={item.status} />
                                     </li>
                                 )
                             }) : <Loading color="light" />

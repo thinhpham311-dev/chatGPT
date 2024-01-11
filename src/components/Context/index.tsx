@@ -2,6 +2,7 @@
 import React, { ReactNode } from 'react'
 import { ContextWrapper } from './styles'
 import { Header, Footer } from '@/components'
+import { useAppSelector } from '@/redux/store'
 
 interface contextProps {
     children?: ReactNode
@@ -9,8 +10,10 @@ interface contextProps {
 
 const Context = ({ children }: contextProps) => {
 
+    const { isShow } = useAppSelector((state) => state.stateSlice)
+
     return (
-        <ContextWrapper >
+        <ContextWrapper $isShow={isShow}>
             <Header />
             {children}
             <Footer />

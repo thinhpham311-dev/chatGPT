@@ -12,6 +12,7 @@ import { CiLogout } from "react-icons/ci";
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from '@/redux/store'
 import { getConversationsList, postAddConversation, getConversationByCode } from '@/redux/store/slices/conversationSlice'
+import { handleEnterInput } from '@/redux/store/slices/stateSlice'
 import { Conversation } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -30,6 +31,7 @@ const Sidebar = () => {
 
     const onEditMessage = (code: string) => {
         dispatch(getConversationByCode({ code } as Conversation))
+        dispatch(handleEnterInput(""))
         router.push(`/c/${code}`)
     }
 
