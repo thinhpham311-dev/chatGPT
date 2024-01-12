@@ -23,7 +23,6 @@ const Sidebar = () => {
     const dispatch = useDispatch<AppDispatch>()
     const { isShow } = useAppSelector((state) => state.stateSlice)
     const { conversations, loadingAction, loadingList } = useAppSelector((state) => state.conversationsState)
-    console.log(user?.id)
 
     useEffect(() => {
         dispatch(getConversationsList())
