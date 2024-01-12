@@ -23,7 +23,7 @@ const Sidebar = () => {
     const dispatch = useDispatch<AppDispatch>()
     const { isShow } = useAppSelector((state) => state.stateSlice)
     const { conversations, loadingAction, loadingList } = useAppSelector((state) => state.conversationsState)
-
+    console.log(user?.id)
 
     useEffect(() => {
         dispatch(getConversationsList())
@@ -38,9 +38,9 @@ const Sidebar = () => {
 
     const onCreateConversation = () => {
         const conversation = {
+            userId: user?.id,
             code: uuidv4(),
             title: "New Messages",
-            userId: 1,
         } as Conversation
         dispatch(postAddConversation(conversation))
         router.push(`/c/${conversation.code}`)

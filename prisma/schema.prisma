@@ -22,6 +22,6 @@ model Conversation {
   code      String    @unique
   title     String
   createdAt DateTime  @default(now())
-  userId    Int?
+  userId    String?
   Message   Message[]
 }

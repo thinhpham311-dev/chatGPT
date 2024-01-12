@@ -10,7 +10,7 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
     css`
         .header-sidebar, .conversation-item{
             ${tw` flex items-center flex-wrap justify-center  `}
-            ${!$isShow ? tw`h-[50px]` : tw`h-[auto]`}
+            ${!$isShow ? tw`h-[60px]` : tw`h-[auto]`}
             &--logo, &--title{
                 ${tw`flex gap-x-3 items-center  `}
                 ${!$isShow ? tw`w-[calc(100%-50px)]` : tw`h-[auto]`}

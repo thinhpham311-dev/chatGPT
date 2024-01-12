@@ -4,16 +4,16 @@ import Image from 'next/image'
 import { Loading } from "@/components"
 import { SiPreact } from "react-icons/si";
 import { CardWrapper } from './styles'
-import { useAppSelector } from '@/redux/store'
 import { Message } from '@prisma/client';
+import { useUser, } from '@clerk/nextjs'
 
 interface cardProps {
     isBot?: Boolean,
-    message: Message
+    message: Message,
 }
 
 const Card = ({ isBot, message }: cardProps) => {
-
+    const { user } = useUser()
     const { content, createdAt } = message
 
     return (
@@ -23,11 +23,11 @@ const Card = ({ isBot, message }: cardProps) => {
                     <div className="card-inner--image-bot">
                         <SiPreact size={40} />
                     </div> :
-                    <Image className="card-inner--image" width={100} height={100} src="/avatars/jonathan.jpg" alt="Avatar of Jonathan Reinink" />
+                    <img className="card-inner--image" src={user?.imageUrl} alt={user?.firstName as string} />
                 }
 
                 <div className="card-inner--content">
-                    <p className="card-inner--content--title">{isBot ? "bot" : "Jonathan Reinink"}</p>
+                    <p className="card-inner--content--title">{isBot ? "bot" : user?.fullName}</p>
                     <small className="card-inner--content--timeline">{createdAt.toString()}</small>
                     <p className="card-inner--content--message">{content}</p>
                 </div>
