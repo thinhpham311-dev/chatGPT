@@ -1,38 +1,20 @@
 'use client'
-import React, { useEffect } from 'react'
-import { Sidebar, Context } from "@/components"
+import React from 'react'
+import { Loading } from "@/components"
 import { SimpleLayoutWrapper } from './styles'
-import { useAppSelector } from "@/redux/store";
-import { Conversation } from "@prisma/client";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { ClerkLoading, ClerkLoaded } from '@clerk/nextjs'
 
 
 const SimpleLayout = ({ children }: { children: React.ReactNode }) => {
-    // const pathname = usePathname()
-    // const { code } = useParams()
-    // const router = useRouter()
-    // const { conversations } = useAppSelector((state) => state.conversationsState)
-
-    // useEffect(() => {
-    //     const data: Conversation[] | undefined = conversations
-    //     const conversation: any = data?.find((item) => item.code === code)
-
-    //     if (conversation || pathname === "/c") {
-    //         router.push("/")
-    //     }
-
-    //     if (conversation && conversation.code !== code) {
-    //         router.push("/")
-    //     }
-
-    // }, [conversations])
 
     return (
         <SimpleLayoutWrapper >
-            <Sidebar />
-            <Context>
+            <ClerkLoading>
+                <Loading color="dark" />
+            </ClerkLoading>
+            <ClerkLoaded>
                 {children}
-            </Context>
+            </ClerkLoaded>
         </SimpleLayoutWrapper>
     )
 }

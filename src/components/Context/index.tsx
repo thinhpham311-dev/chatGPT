@@ -5,7 +5,9 @@ import { Header, Footer } from '@/components'
 import { useAppSelector } from '@/redux/store'
 
 interface contextProps {
-    children?: ReactNode
+    children?: ReactNode,
+    isHeader?: boolean,
+    isFooter?: boolean
 }
 
 const Context = ({ children }: contextProps) => {

@@ -30,9 +30,13 @@ const Button = styled.button<ButtonProps>(({ $variant, $isSmall, $outline, $isFu
 
     $isFull && tw`w-full`,
 
-    css`.text{
+    css`div.text{
         ${tw`text-left inline-grid`}
-    }`
+    }
+        span.text{
+            ${tw`text-center block mx-auto`}
+        }
+    `
 ])
 
 export default Button 

@@ -1,10 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
-
+import { currentUser } from '@clerk/nextjs';
 const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
+    const user = currentUser();
+
     try {
+        if (!user) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
         if (request.method !== "GET") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
@@ -20,7 +25,11 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+    const user = currentUser();
     try {
+        if (!user) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
         const data = await request.json()
         if (request.method !== "POST") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })

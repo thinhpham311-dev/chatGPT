@@ -13,7 +13,7 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
             ${!$isShow ? tw`h-[50px]` : tw`h-[auto]`}
             &--logo, &--title{
                 ${tw`flex gap-x-3 items-center  `}
-                ${!$isShow ? tw`w-[calc(100%-45px)]` : tw`h-[auto]`}
+                ${!$isShow ? tw`w-[calc(100%-50px)]` : tw`h-[auto]`}
                 .tooltiptext{
                     ${tw`font-bold`}
                 }
@@ -23,7 +23,7 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                 ${!$isShow ? tw`w-[auto]` : tw`w-full`}
             }
             &--control, &--setting{
-                ${tw`relative h-[45px] w-[45px] flex items-center justify-center`}
+                ${tw`relative h-[50px] w-[50px] flex items-center justify-center`}
                 
             }
           
@@ -44,11 +44,11 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
         .footer-sidebar{
             ${tw`border-t-[0.5px] border-white `}
             .footer-sidebar-profile{
-                ${tw`flex items-center bg-white py-3`}
+                ${tw`flex items-center gap-x-3 bg-white p-2 h-[50px]`}
                 &--avatar{
-                    ${tw`h-full`}
+                    ${tw`h-full relative `}
                     img{
-                        ${tw`h-[35px] w-[auto] object-cover`}
+                        ${tw`h-[35px] w-[auto] object-cover rounded-full`}
                     }
                 }
                 &--info{

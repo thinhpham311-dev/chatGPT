@@ -21,9 +21,8 @@ const Footer = () => {
         if (conversationId) {
             dispatch(postAddMessageChat(
                 {
-                    content: input,
+                    content: input.trim(),
                     status: false,
-                    userId: 1,
                     conversationId
                 } as Message
             ))
@@ -41,7 +40,7 @@ const Footer = () => {
             <form onSubmit={handleSendMessage} className="footer-inner">
                 <Input type="text" onChange={handleEnterMessage} value={input} placeholder='Message ChatGPT Demo...' $outline="dark" $isFull />
                 <div className='footer-inner--btn'>
-                    <Button type="submit" $variant='system' $isSmall disabled={!input}>{!loadingAction ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
+                    <Button type="submit" $variant='system' $isSmall disabled={!input.trim()}>{!loadingAction ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
                 </div>
             </form>
         </FooterWrapper>

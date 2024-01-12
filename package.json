@@ -11,12 +11,15 @@
     "export": "next build && next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.2",
     "@prisma/client": "^5.7.1",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/uuid": "^9.0.7",
     "@vercel/postgres": "^0.5.1",
     "axios": "^1.6.4",
+    "framer-motion": "^10.18.0",
     "next": "^13.4.10",
+    "next-alert": "^1.0.3",
     "openai": "^4.24.1",
     "prisma": "^5.7.1",
     "react": "18.2.0",
@@ -28,6 +31,7 @@
     "redux-actions": "^3.0.0",
     "remove": "^0.1.5",
     "styled-components": "^6.0.4",
+    "swiper": "^11.0.5",
     "ts-node": "^10.9.2",
     "uuid": "^9.0.1"
   },

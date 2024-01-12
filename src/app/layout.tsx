@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import GlobalStyles from '@/styles/GlobalStyles'
 import StyledComponentsRegistry from '@/lib/registry'
+import { ClerkProvider } from '@clerk/nextjs'
+import { AlertProvider } from "next-alert";
 import { ReduxProvider } from "@/redux/provider"
 
 export const metadata: Metadata = {
@@ -15,15 +17,19 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en">
-      <body>
-        <StyledComponentsRegistry>
-          <ReduxProvider>
-            <GlobalStyles />
-            {children}
-          </ReduxProvider>
-        </StyledComponentsRegistry>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <StyledComponentsRegistry>
+            <AlertProvider>
+              <ReduxProvider>
+                <GlobalStyles />
+                {children}
+              </ReduxProvider>
+            </AlertProvider>
+          </StyledComponentsRegistry>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

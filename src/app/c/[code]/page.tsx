@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
-import { MessageList } from "@/components"
+import { MessageList, ModernLayout } from "@/components"
 import { useRouter, useParams, usePathname } from 'next/navigation'
 import { useAppSelector } from '@/redux/store'
 import { Conversation } from '@prisma/client'
@@ -22,7 +22,9 @@ const MessageDetail = () => {
 
 
     return (
-        <MessageList />
+        <ModernLayout>
+            <MessageList />
+        </ModernLayout>
     )
 }
 

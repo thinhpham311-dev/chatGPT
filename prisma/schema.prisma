@@ -8,23 +8,11 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model User {
-  id            Int            @id @default(autoincrement())
-  username      String
-  email         String         @unique
-  image         String
-  createdAt     DateTime       @default(now())
-  Conversations Conversation[]
-  Message       Message[]
-}
-
 model Message {
   id             Int           @id @default(autoincrement())
   content        String
   status         Boolean
   createdAt      DateTime      @default(now())
-  userId         Int?
-  User           User?         @relation(fields: [userId], references: [id])
   conversationId Int?
   conversation   Conversation? @relation(fields: [conversationId], references: [id])
 }
@@ -35,6 +23,5 @@ model Conversation {
   title     String
   createdAt DateTime  @default(now())
   userId    Int?
-  User      User?     @relation(fields: [userId], references: [id])
   Message   Message[]
 }

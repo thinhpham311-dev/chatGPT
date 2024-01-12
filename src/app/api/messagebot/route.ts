@@ -1,17 +1,20 @@
 import { NextResponse } from 'next/server';
 import { OpenAI } from "openai";
-
+import { currentUser } from '@clerk/nextjs';
 const apiKey = process.env.OPENAI_API_KEY as string
 const organization = process.env.OPENAI_ORGANIZATION as string
 
 export async function POST(request: Request) {
-
+    const user = currentUser();
     try {
         const data = await request.json()
         const openai = new OpenAI({
             apiKey,
             organization
         });
+        if (!user) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
         if (request.method !== "POST") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }

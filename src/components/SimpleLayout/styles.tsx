@@ -1,7 +1,7 @@
 import tw, { styled, css, theme } from 'twin.macro'
 
 const SimpleLayoutWrapper = styled.section(() => [
-    tw`flex h-dvh relative`
+    tw` h-dvh relative flex items-center justify-center w-full`,
 ])
 
 export { SimpleLayoutWrapper }

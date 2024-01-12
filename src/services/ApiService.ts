@@ -1,4 +1,3 @@
-import { Conversation, Message, User } from "@prisma/client"
 import axios from "axios"
 
 interface apiservice {
