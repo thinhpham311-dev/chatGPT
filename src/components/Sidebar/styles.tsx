@@ -5,7 +5,7 @@ interface sidebarProps {
 }
 
 const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
-    tw`h-full bg-black text-white flex flex-col justify-between shadow-lg shadow-indigo-500/40 z-10`,
+    tw`h-full bg-black text-white flex flex-col justify-between shadow-lg shadow-indigo-500/40 z-0`,
     !$isShow ? tw`xl:w-[300px] w-[300px]` : tw`xl:w-[50px] w-0`,
     css`
         .header-sidebar, .conversation-item{
@@ -19,13 +19,14 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                 }
             }
             &--logo{
-                ${tw`p-2 flex-1`}
+                ${tw`p-2 flex-1 cursor-pointer`}
                 ${!$isShow ? tw`w-[auto]` : tw`w-full`}
             }
             &--control, &--setting{
                 ${tw`relative h-[50px] w-[50px] flex items-center justify-center`}
                 
             }
+    
           
             &:not(.conversation-item){
                 ${tw`border-b-[0.5px] border-white shadow-lg`}
@@ -38,13 +39,16 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                 ${tw`relative h-full w-full`}
                 li{
                     ${tw`flex items-center justify-center`}
+                    &.focused{
+                        ${tw`bg-cyan-700`}
+                    }
                 }
             }
         }
         .footer-sidebar{
             ${tw`border-t-[0.5px] border-white `}
-            .footer-sidebar-profile{
-                ${tw`flex items-center gap-x-3 bg-white p-2 h-[50px]`}
+            &-profile{
+                ${tw`flex items-center gap-x-2 bg-white p-2 h-[50px]`}
                 &--avatar{
                     ${tw`h-full relative `}
                     img{
@@ -52,7 +56,8 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                     }
                 }
                 &--info{
-                    ${tw`flex flex-col text-black`}
+                    ${tw` flex-col text-black`}
+                    ${!$isShow ? tw`flex` : tw`hidden`}
                 }
             }
         }

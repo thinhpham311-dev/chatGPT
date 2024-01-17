@@ -43,3 +43,30 @@ export async function POST(request: Request) {
     }
 }
 
+export async function DELETE(request: Request) {
+    const user = currentUser();
+    try {
+        const data = await request.json()
+
+        if (!user) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+        if (request.method !== "DELETE") {
+            return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
+        }
+
+        const removeConversation = await prisma.conversation.delete({
+            where: {
+                id: data.id
+            }
+        })
+        const removeMessage = await prisma.message.deleteMany({
+            where: {
+                conversationId: null
+            }
+        })
+        return NextResponse.json({ data: { ...removeConversation, ...removeMessage } }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error }, { status: 500 });
+    }
+}

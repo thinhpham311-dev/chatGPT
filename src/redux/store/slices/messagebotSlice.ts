@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetMessageChats } from '@/services/MessageService'
+import { apiCreateMessageChatBot } from '@/services/MessageChatBotService'
 import { RootState } from "@/redux/store";
 
 export interface messageBotState {
@@ -12,14 +12,14 @@ export interface messageBotState {
 const initialState: messageBotState = {
     loading: false,
     loadingAction: false,
-    messageChatBot: [],
+    messageChatBot: null,
     error: undefined,
 }
 
 export const postAddMessageChatBot = createAsyncThunk(
-    "message/listMessageChats",
-    async () => {
-        const response: any = await apiGetMessageChats()
+    "messagebot/listMessageChatBot",
+    async (data: Object) => {
+        const response: any = await apiCreateMessageChatBot(data)
         return response.data
     }
 )
@@ -27,7 +27,7 @@ export const postAddMessageChatBot = createAsyncThunk(
 
 
 export const messageChatBot = createSlice({
-    name: "messageChat",
+    name: "messagebot",
     initialState,
     reducers: {},
     extraReducers: (builder) => {

@@ -4,14 +4,14 @@ import { RootState } from "@/redux/store";
 import { Message } from "@prisma/client";
 
 export interface messageState {
-    loading: boolean;
+    loadingList: boolean;
     loadingAction: boolean;
     messageChats: Message[] | undefined;
     error: string | undefined;
 }
 
 const initialState: messageState = {
-    loading: false,
+    loadingList: false,
     loadingAction: false,
     messageChats: [],
     error: undefined,
@@ -34,20 +34,21 @@ export const postAddMessageChat = createAsyncThunk(
 )
 
 
+
 export const messageChat = createSlice({
     name: "messageChat",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getMessageChatsList.pending, (state) => {
-            state.loading = true;
+            state.loadingList = true;
         });
         builder.addCase(getMessageChatsList.fulfilled, (state, action: PayloadAction<Array<Message>>) => {
-            state.loading = false;
+            state.loadingList = false;
             state.messageChats = action.payload;
         });
         builder.addCase(getMessageChatsList.rejected, (state, action) => {
-            state.loading = false;
+            state.loadingList = false;
             state.messageChats = [];
             state.error = action.error.message;
         });

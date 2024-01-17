@@ -17,4 +17,3 @@ export async function apiCreateMessageChat(param: Message) {
         param
     })
 }
-

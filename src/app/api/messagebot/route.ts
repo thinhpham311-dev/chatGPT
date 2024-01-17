@@ -7,11 +7,12 @@ const organization = process.env.OPENAI_ORGANIZATION as string
 export async function POST(request: Request) {
     const user = currentUser();
     try {
-        const data = await request.json()
         const openai = new OpenAI({
             apiKey,
             organization
         });
+        const data = await request.json()
+
         if (!user) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
@@ -21,13 +22,13 @@ export async function POST(request: Request) {
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: "system", ...data },
-                { role: "user", ...data },
-                { role: "assistant", ...data }
+                { role: "system", content: data.content },
+                { role: "user", content: data.content },
+                { role: "assistant", content: data.content }
             ],
         });
 
-        return NextResponse.json({ data: completion }, { status: 200 });
+        return NextResponse.json({ data: completion.choices[0].message.content }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
     }

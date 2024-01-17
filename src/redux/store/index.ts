@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import conversationsState from './slices/conversationSlice'
 import messageChatsState from './slices/messageSlice';
 import messageChatBotState from './slices/messagebotSlice';

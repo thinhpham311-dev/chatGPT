@@ -18,14 +18,14 @@ const Home = () => {
                 </div>
                 <div className="flex-box--content">
                     <h1>Hello Everybody!</h1>
-                    {user && isLoaded && <div className="flex-box--content-avatar"><UserButton afterSignOutUrl='manages' /></div>}
+                    {user && isLoaded && <div className="flex-box--content-avatar"><UserButton afterSignOutUrl='/chats' /></div>}
                     {
                         !user && isLoaded ?
                             <>
                                 <Button type="button" onClick={() => router.push("/sign-in")} $isFull $outline='light'><span className="text">Sign In</span></Button>
                                 <Button type="button" onClick={() => router.push("/sign-up")} $isFull $outline='light'><span className="text">Sign Up</span></Button>
                             </>
-                            : <Button type="button" onClick={() => router.push("/manages")} $outline='light'><span className="text">Manage Tasks</span></Button>
+                            : <Button type="button" onClick={() => router.push("/chats")} $outline='light'><span className="text">Manage Tasks</span></Button>
                     }
                 </div>
             </FlexBoxs>

@@ -10,7 +10,7 @@ interface contextProps {
     isFooter?: boolean
 }
 
-const Context = ({ children }: contextProps) => {
+const Context = ({ children, isHeader, isFooter }: contextProps) => {
 
     const { isShow } = useAppSelector((state) => state.stateSlice)
 

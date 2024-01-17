@@ -45,10 +45,12 @@ export const postAddConversation = createAsyncThunk(
     }
 )
 
-export const postDeleteConversation = createAsyncThunk(
-    "conversation/deleteConversation",
+
+export const deleteRemoveConversation = createAsyncThunk(
+    "conversation/removeConversation",
     async (data: Conversation) => {
         const response: any = await apiDeleteConversation(data)
+        return response.data
     }
 )
 
@@ -90,6 +92,18 @@ export const conversation = createSlice({
             state.conversations?.unshift(action.payload);
         });
         builder.addCase(postAddConversation.rejected, (state, action) => {
+            state.loadingAction = false;
+            state.conversations = [];
+            state.error = action.error.message;
+        });
+        builder.addCase(deleteRemoveConversation.pending, (state) => {
+            state.loadingAction = true;
+        });
+        builder.addCase(deleteRemoveConversation.fulfilled, (state, action: PayloadAction<Conversation>) => {
+            state.loadingAction = false;
+            state.conversations = state.conversations?.filter((item) => item.id !== action.payload.id);
+        });
+        builder.addCase(deleteRemoveConversation.rejected, (state, action) => {
             state.loadingAction = false;
             state.conversations = [];
             state.error = action.error.message;

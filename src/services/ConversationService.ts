@@ -25,9 +25,11 @@ export async function apiCreateConversation(param: Conversation) {
     })
 }
 
+
+
 export async function apiDeleteConversation(param: Conversation) {
     return ApiService.fetchData({
-        method: 'post',
+        method: 'delete',
         url: '/api/conversation',
         param
     })
