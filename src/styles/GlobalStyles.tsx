@@ -7,7 +7,9 @@ const CustomStyles = createGlobalStyle`
   .cl-userButtonPopoverFooter {
     ${tw`hidden`}
   }
-
+.ReactModal__Overlay {
+  ${tw`z-50`}
+}
 `
 
 

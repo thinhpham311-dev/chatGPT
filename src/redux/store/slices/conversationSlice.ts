@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetConversations, apiCreateConversation, apiDeleteConversation, apiGetConversationByCode } from '@/services/ConversationService'
+import { apiGetConversations, apiCreateConversation, apiDeleteConversation } from '@/services/ConversationService'
 import { RootState } from "@/redux/store";
 import { Conversation } from "@prisma/client";
 
@@ -29,13 +29,6 @@ export const getConversationsList = createAsyncThunk(
     }
 )
 
-export const getConversationByCode = createAsyncThunk(
-    "conversation/conversationByCode",
-    async (data: Conversation) => {
-        const response: any = await apiGetConversationByCode(data)
-        return response.data
-    }
-)
 
 export const postAddConversation = createAsyncThunk(
     "conversation/addConversation",
@@ -70,18 +63,6 @@ export const conversation = createSlice({
         builder.addCase(getConversationsList.rejected, (state, action) => {
             state.loadingList = false;
             state.conversations = [];
-            state.error = action.error.message;
-        });
-        builder.addCase(getConversationByCode.pending, (state) => {
-            state.loadingFirst = true;
-        });
-        builder.addCase(getConversationByCode.fulfilled, (state, action: PayloadAction<Conversation>) => {
-            state.loadingFirst = false;
-            state.conversationId = action.payload?.id;
-        });
-        builder.addCase(getConversationByCode.rejected, (state, action) => {
-            state.loadingFirst = false;
-            state.conversationId = null;
             state.error = action.error.message;
         });
         builder.addCase(postAddConversation.pending, (state) => {

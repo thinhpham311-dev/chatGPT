@@ -6,7 +6,7 @@ interface InputProps {
 }
 
 const LoadingWrapper = styled.div<InputProps>(({ $isFill, $variant }) => [
-    tw`w-full h-full absolute left-0 top-0 flex items-center justify-center gap-x-3 z-50`,
+    tw`w-full h-full absolute left-0 top-0 flex items-center justify-center gap-x-3 z-[99999]`,
     $isFill && tw`fixed top-0 left-0`,
     $variant === "dark" && tw`bg-black text-white`,
     $variant === "light" && tw`bg-white text-black`,

@@ -4,21 +4,31 @@ const stateSlice = createSlice({
     name: 'layout',
     initialState: {
         isShow: false,
-        input: ""
+        isShowInput: false,
+        inputSend: "",
+        inputEdit: "",
     },
     reducers: {
         toggleLayout: (state) => {
             state.isShow = !state.isShow
         },
-        handleEnterInput: (state, action) => {
-            state.input = action.payload
+        toggleInput: (state) => {
+            state.isShowInput = !state.isShowInput
+        },
+        handleEnterSend: (state, action) => {
+            state.inputSend = action.payload
+        },
+        handleEnterEdit: (state, action) => {
+            state.inputEdit = action.payload
         }
     },
 })
 
 export const {
     toggleLayout,
-    handleEnterInput
+    toggleInput,
+    handleEnterSend,
+    handleEnterEdit
 } = stateSlice.actions
 
 export default stateSlice.reducer

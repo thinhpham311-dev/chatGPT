@@ -9,13 +9,6 @@ export async function apiGetConversations() {
     })
 }
 
-export async function apiGetConversationByCode(param: Conversation) {
-    return ApiService.fetchData({
-        method: 'get',
-        url: `/api/conversation/${param.code}`,
-    })
-}
-
 
 export async function apiCreateConversation(param: Conversation) {
     return ApiService.fetchData({

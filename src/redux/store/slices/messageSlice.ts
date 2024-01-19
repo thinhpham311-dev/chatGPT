@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetMessageChats, apiCreateMessageChat } from '@/services/MessageService'
+import { apiGetMessageChatsByConversationCode, apiCreateMessageChat } from '@/services/MessageService'
 import { RootState } from "@/redux/store";
 import { Message } from "@prisma/client";
 
@@ -17,10 +17,10 @@ const initialState: messageState = {
     error: undefined,
 }
 
-export const getMessageChatsList = createAsyncThunk(
+export const getMessageChatsListByConversationCode = createAsyncThunk(
     "message/listMessageChats",
-    async () => {
-        const response: any = await apiGetMessageChats()
+    async (data: Message) => {
+        const response: any = await apiGetMessageChatsByConversationCode(data)
         return response.data
     }
 )
@@ -40,14 +40,14 @@ export const messageChat = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getMessageChatsList.pending, (state) => {
+        builder.addCase(getMessageChatsListByConversationCode.pending, (state) => {
             state.loadingList = true;
         });
-        builder.addCase(getMessageChatsList.fulfilled, (state, action: PayloadAction<Array<Message>>) => {
+        builder.addCase(getMessageChatsListByConversationCode.fulfilled, (state, action: PayloadAction<Array<Message>>) => {
             state.loadingList = false;
             state.messageChats = action.payload;
         });
-        builder.addCase(getMessageChatsList.rejected, (state, action) => {
+        builder.addCase(getMessageChatsListByConversationCode.rejected, (state, action) => {
             state.loadingList = false;
             state.messageChats = [];
             state.error = action.error.message;

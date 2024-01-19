@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import conversationsState from './slices/conversationSlice'
 import messageChatsState from './slices/messageSlice';
-import messageChatBotState from './slices/messagebotSlice';
 import stateSlice from './slices/stateSlice';
 import { TypedUseSelectorHook } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -10,7 +9,6 @@ export const store = configureStore({
     reducer: {
         conversationsState,
         messageChatsState,
-        messageChatBotState,
         stateSlice
     },
 });

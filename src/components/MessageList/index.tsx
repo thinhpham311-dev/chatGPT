@@ -3,30 +3,33 @@ import React, { useEffect, useRef } from 'react'
 import { Loading, Card } from "@/components"
 import { MessageListWrapper } from './styles'
 import { AppDispatch, useAppSelector } from '@/redux/store'
-import { getMessageChatsList } from '@/redux/store/slices/messageSlice'
+import { getMessageChatsListByConversationCode } from '@/redux/store/slices/messageSlice'
 import { useDispatch } from 'react-redux'
-
+import { useParams } from 'next/navigation'
+import { Message } from '@prisma/client'
+import { useClerk } from '@clerk/nextjs'
 
 
 const MessageList = () => {
-    const messageListRef = useRef<HTMLDivElement>(null)
+    const { user } = useClerk()
+    const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
-    const { messageChats } = useAppSelector((state) => state.messageChatsState)
-    const { conversationId, loadingFirst, loadingAction } = useAppSelector((state) => state.conversationsState)
+    const { messageChats, loadingAction, loadingList } = useAppSelector((state) => state.messageChatsState)
 
     useEffect(() => {
-        dispatch(getMessageChatsList())
-    }, [dispatch])
-
+        if (code) {
+            dispatch(getMessageChatsListByConversationCode({ conversationCode: code } as Message))
+        }
+    }, [dispatch, code])
 
 
     return (
-        <MessageListWrapper ref={messageListRef}>
+        <MessageListWrapper >
             <div className="messageList-inner">
                 <ul className="messageList-inner--content">
                     {
-                        !loadingFirst && !loadingAction ?
-                            conversationId && messageChats?.filter((item) => item.conversationId === conversationId).reverse().map((item) => {
+                        !loadingList && !loadingAction ?
+                            messageChats?.filter((item) => item.conversationCode === code && item.userId === user?.id).reverse().map((item) => {
                                 return (
                                     <li key={item.id}>
                                         <Card message={{ ...item, content: item.content }} isBot={false} />

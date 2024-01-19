@@ -1,25 +1,24 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs';
 const prisma = new PrismaClient()
 
 export async function GET(request: Request, { params }: { params: { code: string } }) {
-    const user = currentUser();
+    const { userId } = auth()
     const code = params.code
+
     try {
-        if (!user) {
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         if (request.method !== "GET") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
-        const idConversations = await prisma.conversation.findFirst({
-            where: { code },
-            select: {
-                id: true
-            }
+        const messageList = await prisma.message.findMany({
+            where: { conversationCode: code, userId: userId }
         })
-        return NextResponse.json({ data: idConversations }, { status: 200 });
+
+        return NextResponse.json({ data: messageList }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
     }

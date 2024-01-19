@@ -1,7 +1,7 @@
 import tw, { styled, css, theme } from 'twin.macro'
 
 const CardWrapper = styled.div(() => [
-    tw`rounded-lg shadow-lg shadow-slate-500/40 bg-white`,
+    tw`rounded-lg shadow-lg shadow-slate-500/40 bg-white z-0`,
     css`
         .card-inner{
             ${tw`px-2 flex gap-x-1`}

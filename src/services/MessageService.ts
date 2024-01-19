@@ -2,10 +2,10 @@ import { Message } from "@prisma/client"
 import ApiService from "./ApiService"
 
 
-export async function apiGetMessageChats() {
+export async function apiGetMessageChatsByConversationCode(param: Message) {
     return ApiService.fetchData({
         method: 'get',
-        url: '/api/message',
+        url: `/api/message/${param.conversationCode}`,
     })
 }
 

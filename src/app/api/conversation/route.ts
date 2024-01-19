@@ -1,18 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs';
+import { currentUser, auth } from '@clerk/nextjs';
 const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
-    const user = currentUser();
+    const { userId } = auth();
     try {
-        if (!user) {
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         if (request.method !== "GET") {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
         const conversations = await prisma.conversation.findMany({
+            where: { userId: userId },
             orderBy: { createdAt: 'desc' },
         })
         return NextResponse.json({ data: conversations }, { status: 200 });
@@ -47,7 +48,6 @@ export async function DELETE(request: Request) {
     const user = currentUser();
     try {
         const data = await request.json()
-
         if (!user) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
@@ -55,16 +55,18 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
 
-        const removeConversation = await prisma.conversation.delete({
-            where: {
-                id: data.id
-            }
-        })
         const removeMessage = await prisma.message.deleteMany({
             where: {
-                conversationId: null
+                conversationCode: data.code
             }
         })
+
+        const removeConversation = await prisma.conversation.delete({
+            where: {
+                ...data
+            }
+        })
+
         return NextResponse.json({ data: { ...removeConversation, ...removeMessage } }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });
