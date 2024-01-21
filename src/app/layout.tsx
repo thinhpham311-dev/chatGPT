@@ -20,16 +20,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-          <StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <ClerkProvider >
             <AlertProvider>
               <ReduxProvider>
                 <GlobalStyles />
                 {children}
               </ReduxProvider>
             </AlertProvider>
-          </StyledComponentsRegistry>
-        </ClerkProvider>
+          </ClerkProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   )
