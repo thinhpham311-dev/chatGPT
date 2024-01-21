@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description: '',
 }
 
+
 export default function RootLayout({
   children,
 }: {
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClerkProvider >
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           <StyledComponentsRegistry>
             <AlertProvider>
               <ReduxProvider>
