@@ -17,9 +17,9 @@ export default function RootLayout({
 }) {
 
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
+    <html lang="en">
+      <body>
+        <ClerkProvider >
           <StyledComponentsRegistry>
             <AlertProvider>
               <ReduxProvider>
@@ -28,8 +28,8 @@ export default function RootLayout({
               </ReduxProvider>
             </AlertProvider>
           </StyledComponentsRegistry>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   )
 }
