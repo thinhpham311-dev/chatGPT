@@ -22,8 +22,7 @@ const Footer = () => {
     const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
     const { inputSend } = useAppSelector((state) => state.stateSlice)
-    const { loadingAction } = useAppSelector((state) => state.messageChatsState)
-    const { loadingList } = useAppSelector((state) => state.conversationsState)
+    const { loadingMessage } = useAppSelector((state) => state.messageChatsState)
 
 
     const handleSendMessage = (e: any) => {
@@ -42,8 +41,10 @@ const Footer = () => {
             dispatch(postAddConversation(conversation))
             router.push(`/c/${conversation.code}`)
         }
-        dispatch(postAddMessageChat({ ...message, isbot: false }))
-        dispatch(postAddMessageChatBot({ ...message, isbot: true }))
+        dispatch(postAddMessageChat({ ...message }))
+        setTimeout(() => {
+            dispatch(postAddMessageChatBot({ ...message }))
+        }, 5000)
         dispatch(handleEnterSend(""))
     }
 
@@ -93,9 +94,9 @@ const Footer = () => {
     return (
         <FooterWrapper>
             <form onSubmit={handleSendMessage} className="footer-inner">
-                <Textarea disabled={loadingAction || loadingList} onKeyDown={handleTextareaChange} onChange={handleEnterMessage} value={inputSend} placeholder='Message ChatGPT Demo...' $outline="dark" $isFull rows={1} />
+                <Textarea disabled={loadingMessage} onKeyDown={handleTextareaChange} onChange={handleEnterMessage} value={inputSend} placeholder='Message ChatGPT Demo...' $outline="dark" $isFull rows={1} />
                 <div className='footer-inner--btn'>
-                    <Button type="submit" $variant='system' $isSmall disabled={!inputSend.trim()}>{!loadingAction ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
+                    <Button type="submit" $variant='system' $isSmall disabled={!inputSend.trim()}>{!loadingMessage ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
                 </div>
             </form>
         </FooterWrapper>

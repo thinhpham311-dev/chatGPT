@@ -35,8 +35,8 @@ export async function POST(request: Request) {
         const saveMessage = await prisma.message.create({
             data: {
                 content: contentbot,
+                isbot: true,
                 userId: data.userId,
-                isbot: data.isbot,
                 conversationCode: data.conversationCode
             }
         })

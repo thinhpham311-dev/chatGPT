@@ -14,7 +14,7 @@ const MessageList = () => {
     const { user } = useClerk()
     const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
-    const { messageChats, loadingAction, loadingList } = useAppSelector((state) => state.messageChatsState)
+    const { messageChats, loadingMessage } = useAppSelector((state) => state.messageChatsState)
 
     useEffect(() => {
         if (code) {
@@ -28,16 +28,16 @@ const MessageList = () => {
             <div className="messageList-inner">
                 <ul className="messageList-inner--content">
                     {
-                        !loadingList ?
-                            messageChats?.filter((item) => item.conversationCode === code && item.userId === user?.id).map((item) => {
-                                return (
-                                    <li key={item.id}>
-                                        <Card message={{ ...item, content: item.content }} isBot={item.isbot} />
-                                    </li>
-                                )
-                            }) : <Loading color="light" />
+
+                        messageChats?.filter((item) => item.conversationCode === code && item.userId === user?.id).map((item) => {
+                            return (
+                                <li key={item.id}>
+                                    <Card message={{ ...item, content: item.content }} isBot={item.isbot} />
+                                </li>
+                            )
+                        })
                     }
-                    <li className="messageList-inner--content--loading">{!loadingList ? loadingAction && <Loading color="light" /> : <></>}</li>
+                    <li className="messageList-inner--content--loading">{loadingMessage && <Loading color="light" />}</li>
                 </ul>
             </div>
         </MessageListWrapper>

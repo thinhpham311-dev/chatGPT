@@ -18,7 +18,8 @@ export async function POST(request: Request) {
 
         const saveMessage = await prisma.message.create({
             data: {
-                ...data
+                ...data,
+                isbot: false
             }
         })
         return NextResponse.json({ data: saveMessage }, { status: 200 });

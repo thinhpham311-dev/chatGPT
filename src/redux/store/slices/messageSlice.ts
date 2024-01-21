@@ -4,15 +4,13 @@ import { RootState } from "@/redux/store";
 import { Message } from "@prisma/client";
 
 export interface messageState {
-    loadingList: boolean;
-    loadingAction: boolean;
+    loadingMessage: boolean;
     messageChats: Message[] | undefined;
     error: string | undefined;
 }
 
 const initialState: messageState = {
-    loadingList: false,
-    loadingAction: false,
+    loadingMessage: false,
     messageChats: [],
     error: undefined,
 }
@@ -49,38 +47,38 @@ export const messageChat = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getMessageChatsListByConversationCode.pending, (state) => {
-            state.loadingList = true;
+            state.loadingMessage = true;
         });
         builder.addCase(getMessageChatsListByConversationCode.fulfilled, (state, action: PayloadAction<Array<Message>>) => {
-            state.loadingList = false;
+            state.loadingMessage = false;
             state.messageChats = action.payload;
         });
         builder.addCase(getMessageChatsListByConversationCode.rejected, (state, action) => {
-            state.loadingList = false;
+            state.loadingMessage = false;
             state.messageChats = [];
             state.error = action.error.message;
         });
         builder.addCase(postAddMessageChat.pending, (state) => {
-            state.loadingAction = true;
+            state.loadingMessage = true;
         });
         builder.addCase(postAddMessageChat.fulfilled, (state, action: PayloadAction<Message>) => {
-            state.loadingAction = false;
+            state.loadingMessage = false;
             state.messageChats?.push(action.payload);
         });
         builder.addCase(postAddMessageChat.rejected, (state, action) => {
-            state.loadingAction = false;
+            state.loadingMessage = false;
             state.messageChats = [];
             state.error = action.error.message;
         });
         builder.addCase(postAddMessageChatBot.pending, (state) => {
-            state.loadingAction = true;
+            state.loadingMessage = true;
         });
         builder.addCase(postAddMessageChatBot.fulfilled, (state, action: PayloadAction<Message>) => {
-            state.loadingAction = false;
+            state.loadingMessage = false;
             state.messageChats?.push(action.payload);
         });
         builder.addCase(postAddMessageChatBot.rejected, (state, action) => {
-            state.loadingAction = false;
+            state.loadingMessage = false;
             state.messageChats = [];
             state.error = action.error.message;
         });
