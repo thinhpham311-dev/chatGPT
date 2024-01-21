@@ -6,9 +6,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
-    "export": "next build && next start"
+    "export": "next build && next start",
+    "build": "prisma generate && next build"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.2",
