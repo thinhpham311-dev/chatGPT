@@ -5,7 +5,6 @@ import { Conversation } from "@prisma/client";
 
 export interface conversationState {
     loadingList: boolean;
-    loadingFirst: boolean;
     loadingAction: boolean;
     conversations: Conversation[] | undefined;
     conversationId: number | null;
@@ -14,7 +13,6 @@ export interface conversationState {
 
 const initialState: conversationState = {
     loadingList: false,
-    loadingFirst: false,
     loadingAction: false,
     conversations: [],
     conversationId: null,

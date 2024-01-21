@@ -2,7 +2,6 @@
 CREATE TABLE "Message" (
     "id" SERIAL NOT NULL,
     "content" TEXT,
-    "contentbot" TEXT,
     "userId" TEXT,
     "isbot" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

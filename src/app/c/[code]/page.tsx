@@ -1,13 +1,12 @@
 'use client'
 import React, { useEffect, Suspense } from 'react'
 import { ModernLayout, Loading } from "@/components"
-import { useRouter, useParams, usePathname } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { useAppSelector } from '@/redux/store'
 import { Conversation } from '@prisma/client'
 const MessageListComponent = React.lazy(() => import('@/components/MessageList'));
 
 const MessageDetail = () => {
-    const pathname = usePathname()
     const { id } = useParams()
     const router = useRouter()
     const { conversations } = useAppSelector((state) => state.conversationsState)

@@ -22,7 +22,7 @@ export default function DropDownMenu({ title, list }: dropdownMenuProps) {
     const menuRef = useRef<HTMLDivElement>(null)
     const menu = menuRef.current as HTMLDivElement
     useEffect(() => {
-        let handler = (e: any) => {
+        const handler = (e: any) => {
             if (!menu?.contains(e?.target)) {
                 setOpen(false);
             }

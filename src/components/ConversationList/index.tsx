@@ -4,7 +4,7 @@ import { Loading, DropDownMenu, Button, Input } from "@/components"
 import { ConversationWrapper } from './styles'
 import { AppDispatch, useAppSelector } from '@/redux/store'
 import { deleteRemoveConversation } from '@/redux/store/slices/conversationSlice'
-import { handleEnterSend, handleEnterEdit, toggleInput } from '@/redux/store/slices/stateSlice'
+import { handleEnterSend, handleEnterEdit, openInput, closeInput } from '@/redux/store/slices/stateSlice'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'next/navigation'
 import { Conversation } from '@prisma/client'
@@ -21,7 +21,7 @@ const ConversationList = () => {
     const { user } = useClerk()
     const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
-    const { isShow, isShowInput, inputEdit } = useAppSelector((state) => state.stateSlice)
+    const { isShow, isShowInput, inputEdit, id } = useAppSelector((state) => state.stateSlice)
     const { conversations, loadingAction, loadingList } = useAppSelector((state) => state.conversationsState)
 
     const onEditMessage = (code: string) => {
@@ -29,13 +29,18 @@ const ConversationList = () => {
         router.push(`/c/${code}`)
     }
 
-    const onSaveConversation = () => {
-        dispatch(toggleInput());
+    const onSaveConversation = (id: number) => {
+        dispatch(closeInput(id));
+    }
+
+    const handleOpenInput = (id: number) => {
+        dispatch(openInput(id as number))
     }
 
     const handleEnterInputField = (updatedTitle: string) => {
         dispatch(handleEnterEdit(updatedTitle))
     }
+
 
 
     return (
@@ -44,11 +49,12 @@ const ConversationList = () => {
                 {
                     !loadingList && !loadingAction ?
                         conversations?.map((item: Conversation) => {
+                            let isShowInputEnter = isShowInput && item.id == id
                             return <li key={item.id} className={`conversation-item ${item.code === code ? "focused" : ""}`}>
                                 <div className="conversation-item--title">
-                                    {isShowInput ? <Input type="text" onChange={(e) => handleEnterInputField(e.target.value)} $variant='light' value={inputEdit} /> :
-                                        <Button type="button" $isFull $isSmall onClick={() => onEditMessage(item.code as string)}>
-                                            {!isShowInput && <IoChatboxOutline size={30} />}
+                                    {isShowInputEnter ? <Input type="text" onChange={(e) => handleEnterInputField(e.target.value)} $variant='light' value={inputEdit} /> :
+                                        <Button type="button" $isFull $isSmall onDoubleClick={() => handleOpenInput(item.id)} onClick={() => onEditMessage(item.code as string)}>
+                                            {!isShowInputEnter && <IoChatboxOutline size={30} />}
                                             {!isShow && <div className="text">
                                                 <span className="tooltiptext">{item.title}</span>
                                                 <small className="tooltiptext">{moment(item.createdAt?.toString()).format(process.env.NEXT_PUBLIC_DATE_TIME_FORMAT_MOMENT)}</small>
@@ -58,14 +64,14 @@ const ConversationList = () => {
                                     }
                                 </div>
                                 {!isShow && <div className="conversation-item--setting">
-                                    {!isShowInput ?
+                                    {!isShowInputEnter ?
                                         <DropDownMenu title={<VscEllipsis />} list={[
                                             {
                                                 icon: <FaRegEdit />,
                                                 buttonText: "Rename",
                                                 isDialog: false,
                                                 func: () => {
-                                                    dispatch(toggleInput())
+                                                    handleOpenInput(item.id)
                                                 }
                                             },
                                             {
@@ -79,7 +85,7 @@ const ConversationList = () => {
                                                     router.push("/chats")
                                                 }
                                             }
-                                        ]} /> : <Button type="button" $isSmall onClick={onSaveConversation}><IoSaveOutline size={25} /></Button>}
+                                        ]} /> : <Button type="button" $isSmall onClick={() => onSaveConversation(item.id)} ><IoSaveOutline size={25} /></Button>}
                                 </div>
                                 }
                             </li>

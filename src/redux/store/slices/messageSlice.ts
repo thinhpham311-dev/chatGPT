@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetMessageChatsByConversationCode, apiCreateMessageChat } from '@/services/MessageService'
+import { apiGetMessageChatsByConversationCode, apiCreateMessageChat, apiCreateMessageChatBot } from '@/services/MessageService'
 import { RootState } from "@/redux/store";
 import { Message } from "@prisma/client";
 
@@ -33,6 +33,14 @@ export const postAddMessageChat = createAsyncThunk(
     }
 )
 
+export const postAddMessageChatBot = createAsyncThunk(
+    "message/addMessageChatBot",
+    async (data: Message) => {
+        const response: any = await apiCreateMessageChatBot(data)
+        return response.data
+    }
+)
+
 
 
 export const messageChat = createSlice({
@@ -57,9 +65,21 @@ export const messageChat = createSlice({
         });
         builder.addCase(postAddMessageChat.fulfilled, (state, action: PayloadAction<Message>) => {
             state.loadingAction = false;
-            state.messageChats?.unshift(action.payload);
+            state.messageChats?.push(action.payload);
         });
         builder.addCase(postAddMessageChat.rejected, (state, action) => {
+            state.loadingAction = false;
+            state.messageChats = [];
+            state.error = action.error.message;
+        });
+        builder.addCase(postAddMessageChatBot.pending, (state) => {
+            state.loadingAction = true;
+        });
+        builder.addCase(postAddMessageChatBot.fulfilled, (state, action: PayloadAction<Message>) => {
+            state.loadingAction = false;
+            state.messageChats?.push(action.payload);
+        });
+        builder.addCase(postAddMessageChatBot.rejected, (state, action) => {
             state.loadingAction = false;
             state.messageChats = [];
             state.error = action.error.message;

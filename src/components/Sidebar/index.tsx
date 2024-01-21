@@ -27,9 +27,6 @@ const Sidebar = () => {
         dispatch(getConversationsList())
     }, [dispatch])
 
-
-
-
     const onCreateConversation = () => {
         const conversation = {
             userId: user?.id,
@@ -38,11 +35,7 @@ const Sidebar = () => {
         } as Conversation
         dispatch(postAddConversation(conversation))
         router.push(`/c/${conversation.code}`)
-
     }
-
-
-
 
     return (
         <SidebarWrapper $isShow={isShow} >

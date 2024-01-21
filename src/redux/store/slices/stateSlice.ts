@@ -7,28 +7,36 @@ const stateSlice = createSlice({
         isShowInput: false,
         inputSend: "",
         inputEdit: "",
+        id: NaN
     },
     reducers: {
         toggleLayout: (state) => {
             state.isShow = !state.isShow
         },
-        toggleInput: (state) => {
-            state.isShowInput = !state.isShowInput
+        openInput: (state, action) => {
+            state.isShowInput = true
+            state.id = action.payload
+        },
+        closeInput: (state, action) => {
+            state.isShowInput = false
+            state.id = action.payload
         },
         handleEnterSend: (state, action) => {
             state.inputSend = action.payload
         },
         handleEnterEdit: (state, action) => {
             state.inputEdit = action.payload
-        }
+
+        },
     },
 })
 
 export const {
     toggleLayout,
-    toggleInput,
+    openInput,
+    closeInput,
     handleEnterSend,
-    handleEnterEdit
+    handleEnterEdit,
 } = stateSlice.actions
 
 export default stateSlice.reducer

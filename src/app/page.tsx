@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SimpleLayout, Carousel, Button } from "@/components"
 import tw, { css, styled } from 'twin.macro'
 import { useRouter } from 'next/navigation'
@@ -8,7 +8,6 @@ import { useUser, UserButton } from '@clerk/nextjs'
 const Home = () => {
     const { user, isLoaded } = useUser()
     const router = useRouter()
-
 
     return (
         <SimpleLayout>

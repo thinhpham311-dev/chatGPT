@@ -15,7 +15,8 @@ export async function GET(request: Request, { params }: { params: { code: string
             return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
         }
         const messageList = await prisma.message.findMany({
-            where: { conversationCode: code, userId: userId }
+            where: { conversationCode: code, userId: userId },
+            orderBy: { createdAt: 'asc' }
         })
 
         return NextResponse.json({ data: messageList }, { status: 200 });

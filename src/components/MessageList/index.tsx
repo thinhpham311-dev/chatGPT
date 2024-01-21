@@ -28,16 +28,16 @@ const MessageList = () => {
             <div className="messageList-inner">
                 <ul className="messageList-inner--content">
                     {
-                        !loadingList && !loadingAction ?
-                            messageChats?.filter((item) => item.conversationCode === code && item.userId === user?.id).reverse().map((item) => {
+                        !loadingList ?
+                            messageChats?.filter((item) => item.conversationCode === code && item.userId === user?.id).map((item) => {
                                 return (
                                     <li key={item.id}>
-                                        <Card message={{ ...item, content: item.content }} isBot={false} />
-                                        <Card message={{ ...item, content: item.contentbot }} isBot={true} />
+                                        <Card message={{ ...item, content: item.content }} isBot={item.isbot} />
                                     </li>
                                 )
                             }) : <Loading color="light" />
                     }
+                    <li className="messageList-inner--content--loading">{!loadingList ? loadingAction && <Loading color="light" /> : <></>}</li>
                 </ul>
             </div>
         </MessageListWrapper>

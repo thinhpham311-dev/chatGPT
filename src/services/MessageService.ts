@@ -17,3 +17,11 @@ export async function apiCreateMessageChat(param: Message) {
         param
     })
 }
+
+export async function apiCreateMessageChatBot(param: Message) {
+    return ApiService.fetchData({
+        method: 'post',
+        url: '/api/messagebot',
+        param
+    })
+}

@@ -33,7 +33,7 @@ const Input = styled.input<InputProps>(({ $variant, $isSmall, $outline, $isFull 
 
 const Textarea = styled.textarea<InputProps>(({ $variant, $isSmall, $outline, $isFull }) => [
     // The common button styles added with the tw import
-    tw` px-10 py-2 transition-all duration-500 hover:opacity-70 rounded-full outline-none disabled:opacity-50  focus:border-cyan-700 min-h-[45px]`,
+    tw` px-10 py-2 transition-all duration-500 hover:opacity-70 rounded-full outline-none disabled:opacity-50  focus:border-cyan-700`,
 
     // Use props to conditionally style your components
     $variant === 'system' && tw`!bg-cyan-700 text-white  border-[0.5px]  border-cyan-700`,
