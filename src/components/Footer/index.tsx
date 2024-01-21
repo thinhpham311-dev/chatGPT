@@ -42,9 +42,7 @@ const Footer = () => {
             router.push(`/c/${conversation.code}`)
         }
         dispatch(postAddMessageChat({ ...message }))
-        setTimeout(() => {
-            dispatch(postAddMessageChatBot({ ...message }))
-        }, 5000)
+        dispatch(postAddMessageChatBot({ ...message }))
         dispatch(handleEnterSend(""))
     }
 
