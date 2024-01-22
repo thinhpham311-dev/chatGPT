@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
-import { apiGetConversations, apiCreateConversation, apiDeleteConversation } from '@/services/ConversationService'
+import { apiGetConversations, apiCreateConversation, apiDeleteConversation, apiUpdateConversation } from '@/services/ConversationService'
 import { RootState } from "@/redux/store";
 import { Conversation } from "@prisma/client";
 
 export interface conversationState {
     loadingList: boolean;
     loadingAction: boolean;
+    loadingActionEdit: boolean;
     conversations: Conversation[] | undefined;
     conversationId: number | null;
     error: string | undefined;
@@ -14,6 +15,7 @@ export interface conversationState {
 const initialState: conversationState = {
     loadingList: false,
     loadingAction: false,
+    loadingActionEdit: false,
     conversations: [],
     conversationId: null,
     error: undefined,
@@ -41,6 +43,15 @@ export const deleteRemoveConversation = createAsyncThunk(
     "conversation/removeConversation",
     async (data: Conversation) => {
         const response: any = await apiDeleteConversation(data)
+        return response.data
+    }
+)
+
+
+export const putUpdateConversation = createAsyncThunk(
+    "conversation/updateConversation",
+    async (data: Conversation) => {
+        const response: any = await apiUpdateConversation(data)
         return response.data
     }
 )
@@ -84,6 +95,18 @@ export const conversation = createSlice({
         });
         builder.addCase(deleteRemoveConversation.rejected, (state, action) => {
             state.loadingAction = false;
+            state.conversations = [];
+            state.error = action.error.message;
+        });
+        builder.addCase(putUpdateConversation.pending, (state) => {
+            state.loadingActionEdit = true;
+        });
+        builder.addCase(putUpdateConversation.fulfilled, (state, action: PayloadAction<Conversation>) => {
+            state.loadingActionEdit = false;
+            state.conversations = state.conversations?.map((item) => item.id === action.payload.id ? action.payload : item);
+        });
+        builder.addCase(putUpdateConversation.rejected, (state, action) => {
+            state.loadingActionEdit = false;
             state.conversations = [];
             state.error = action.error.message;
         });

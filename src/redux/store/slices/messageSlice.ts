@@ -62,11 +62,9 @@ export const messageChat = createSlice({
             state.loadingMessage = true;
         });
         builder.addCase(postAddMessageChat.fulfilled, (state, action: PayloadAction<Message>) => {
-            state.loadingMessage = false;
             state.messageChats?.push(action.payload);
         });
         builder.addCase(postAddMessageChat.rejected, (state, action) => {
-            state.loadingMessage = false;
             state.messageChats = [];
             state.error = action.error.message;
         });

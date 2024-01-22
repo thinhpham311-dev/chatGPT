@@ -31,7 +31,7 @@ const Button = styled.button<ButtonProps>(({ $variant, $isSmall, $outline, $isFu
     $isFull && tw`w-full`,
 
     css`div.text{
-        ${tw`text-left inline-grid`}
+        ${tw`text-left inline-grid `}
     }
         span.text{
             ${tw`text-center block mx-auto`}

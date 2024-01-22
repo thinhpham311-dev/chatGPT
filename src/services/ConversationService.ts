@@ -27,3 +27,12 @@ export async function apiDeleteConversation(param: Conversation) {
         param
     })
 }
+
+
+export async function apiUpdateConversation(param: Conversation) {
+    return ApiService.fetchData({
+        method: 'put',
+        url: '/api/conversation',
+        param
+    })
+}

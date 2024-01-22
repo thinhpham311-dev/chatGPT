@@ -41,8 +41,10 @@ const Footer = () => {
             dispatch(postAddConversation(conversation))
             router.push(`/c/${conversation.code}`)
         }
-        dispatch(postAddMessageChat({ ...message }))
-        dispatch(postAddMessageChatBot({ ...message }))
+        setTimeout(() => {
+            dispatch(postAddMessageChat({ ...message }))
+            dispatch(postAddMessageChatBot({ ...message }))
+        })
         dispatch(handleEnterSend(""))
     }
 
@@ -94,7 +96,7 @@ const Footer = () => {
             <form onSubmit={handleSendMessage} className="footer-inner">
                 <Textarea disabled={loadingMessage} onKeyDown={handleTextareaChange} onChange={handleEnterMessage} value={inputSend} placeholder='Message ChatGPT Demo...' $outline="dark" $isFull rows={1} />
                 <div className='footer-inner--btn'>
-                    <Button type="submit" $variant='system' $isSmall disabled={!inputSend.trim()}>{!loadingMessage ? <IoIosSend size={25} /> : <Loading color="light" isIcon />}</Button>
+                    {!loadingMessage ? <Button type="submit" $variant='system' $isSmall disabled={!inputSend.trim()}> <IoIosSend size={25} /></Button> : <Loading color="light" isIcon />}
                 </div>
             </form>
         </FooterWrapper>

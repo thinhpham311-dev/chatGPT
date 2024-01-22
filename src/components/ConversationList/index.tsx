@@ -3,7 +3,7 @@ import React from 'react'
 import { Loading, DropDownMenu, Button, Input } from "@/components"
 import { ConversationWrapper } from './styles'
 import { AppDispatch, useAppSelector } from '@/redux/store'
-import { deleteRemoveConversation } from '@/redux/store/slices/conversationSlice'
+import { deleteRemoveConversation, putUpdateConversation } from '@/redux/store/slices/conversationSlice'
 import { handleEnterSend, handleEnterEdit, openInput, closeInput } from '@/redux/store/slices/stateSlice'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'next/navigation'
@@ -22,14 +22,14 @@ const ConversationList = () => {
     const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
     const { isShow, isShowInput, inputEdit, id } = useAppSelector((state) => state.stateSlice)
-    const { conversations, loadingAction, loadingList } = useAppSelector((state) => state.conversationsState)
+    const { conversations, loadingAction, loadingList, loadingActionEdit, conversationId } = useAppSelector((state) => state.conversationsState)
 
     const onEditMessage = (code: string) => {
         dispatch(handleEnterSend(""))
         router.push(`/c/${code}`)
     }
-
     const onSaveConversation = (id: number) => {
+        dispatch(putUpdateConversation({ id, title: inputEdit } as Conversation))
         dispatch(closeInput(id));
     }
 
@@ -41,8 +41,6 @@ const ConversationList = () => {
         dispatch(handleEnterEdit(updatedTitle))
     }
 
-
-
     return (
         <ConversationWrapper>
             <ul>
@@ -52,7 +50,7 @@ const ConversationList = () => {
                             let isShowInputEnter = isShowInput && item.id == id
                             return <li key={item.id} className={`conversation-item ${item.code === code ? "focused" : ""}`}>
                                 <div className="conversation-item--title">
-                                    {isShowInputEnter ? <Input type="text" onChange={(e) => handleEnterInputField(e.target.value)} $variant='light' value={inputEdit} /> :
+                                    {isShowInputEnter ? <Input type="text" onChange={(e) => handleEnterInputField(e.target.value)} $variant='light' defaultValue={item.title} /> :
                                         <Button type="button" $isFull $isSmall onDoubleClick={() => handleOpenInput(item.id)} onClick={() => onEditMessage(item.code as string)}>
                                             {!isShowInputEnter && <IoChatboxOutline size={30} />}
                                             {!isShow && <div className="text">
@@ -64,6 +62,8 @@ const ConversationList = () => {
                                     }
                                 </div>
                                 {!isShow && <div className="conversation-item--setting">
+                                    {loadingActionEdit && item.id === id && <Loading color="dark" isIcon />}
+
                                     {!isShowInputEnter ?
                                         <DropDownMenu title={<VscEllipsis />} list={[
                                             {

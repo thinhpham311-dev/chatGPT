@@ -72,3 +72,29 @@ export async function DELETE(request: Request) {
         return NextResponse.json({ error }, { status: 500 });
     }
 }
+
+export async function PUT(request: Request) {
+    const user = currentUser();
+    try {
+        const data = await request.json()
+        if (!user) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+        if (request.method !== "PUT") {
+            return NextResponse.json({ message: "Method not allowed" }, { status: 405 })
+        }
+
+        const saveConversation = await prisma.conversation.update({
+            where: {
+                id: data.id,
+            },
+            data: {
+                title: data.title,
+                ...data
+            }
+        })
+        return NextResponse.json({ data: saveConversation }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error }, { status: 500 });
+    }
+}

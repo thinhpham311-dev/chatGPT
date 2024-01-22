@@ -18,6 +18,11 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                     ${tw`font-bold`}
                 }
             }
+            &--title{
+                .tooltiptext{
+                    ${tw`line-clamp-1`}
+                }
+            }
             &--logo{
                 ${tw` py-2 flex-1 cursor-pointer`}
                 ${!$isShow ? tw`w-[auto] px-2` : tw`w-full`}
