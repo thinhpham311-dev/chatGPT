@@ -1,8 +1,8 @@
 import tw, { styled, css, theme } from 'twin.macro'
 
 const CarouselWrapper = styled.div(() => [
-    tw`h-full w-full`,
-    css`
+  tw`h-full w-full`,
+  css`
     .swiper {
         ${tw`w-full h-full`}
       }
@@ -12,7 +12,7 @@ const CarouselWrapper = styled.div(() => [
       }
       
       .swiper-slide img {
-        ${tw`block w-full h-full object-cover`}
+        ${tw`block w-full h-full object-cover object-left`}
       }
     `
 ])

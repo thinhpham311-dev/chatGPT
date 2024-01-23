@@ -13,7 +13,7 @@ import { toggleLayout } from '@/redux/store/slices/stateSlice'
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>()
 
-    const { isShow } = useAppSelector(state => state.stateSlice)
+    const { isShow, isShowInput } = useAppSelector(state => state.stateSlice)
 
     const handleToggle = () => {
         dispatch(toggleLayout());
@@ -21,7 +21,7 @@ const Header = () => {
 
     return (
         <HeaderWrapper>
-            <Button type="button" $isSmall onClick={handleToggle}>{isShow ? <AiOutlineMenuUnfold size={25} /> : <AiOutlineMenuFold size={25} />}</Button>
+            {!isShowInput && <Button type="button" $isSmall onClick={handleToggle}>{isShow ? <AiOutlineMenuUnfold size={25} /> : <AiOutlineMenuFold size={25} />}</Button>}
         </HeaderWrapper>
     )
 }

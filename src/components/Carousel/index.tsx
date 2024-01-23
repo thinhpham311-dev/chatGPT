@@ -18,10 +18,7 @@ const Carousel = () => {
         <CarouselWrapper>
             <Swiper pagination={true} navigation={true} modules={[Pagination, Navigation]} className="mySwiper">
                 <SwiperSlide>
-                    <Image src="/carousels/image-carousel-1.webp" width={2000} height={2000} alt="" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Image src="/carousels/image-carousel-2.webp" width={2000} height={2000} alt="" />
+                    <Image src="/carousels/introducing-chatgpt-and-whisper-apis.webp" width={2000} height={2000} alt="" />
                 </SwiperSlide>
             </Swiper>
         </CarouselWrapper>

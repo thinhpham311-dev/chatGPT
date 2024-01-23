@@ -28,13 +28,19 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                 ${!$isShow ? tw`w-[auto] px-2` : tw`w-full`}
             }
             &--control, &--setting{
-                ${tw`relative h-[50px] w-[50px] xl:flex items-center justify-center`}
+                ${tw`relative h-[45px] w-[45px] xl:flex items-center justify-center`}
                 ${!$isShow ? tw`flex` : tw`hidden`}
             }
            
           
             &:not(.conversation-item){
                 ${tw`border-b-[0.5px] border-white shadow-lg`}
+            }
+            &--input{
+                ${tw`flex items-center gap-x-2`}
+                input{
+                    ${tw`text-black`}
+                }
             }
         }
 
