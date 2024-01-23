@@ -25,7 +25,7 @@ const Footer = () => {
     const { loadingMessage } = useAppSelector((state) => state.messageChatsState)
 
 
-    const handleSendMessage = async (e: any) => {
+    const handleSendMessage = (e: any) => {
         e.preventDefault()
         const conversation = {
             userId: user?.id,
@@ -38,13 +38,13 @@ const Footer = () => {
             conversationCode: code ?? conversation.code
         } as Message
         if (!code) {
-            await dispatch(postAddConversation(conversation))
+            dispatch(postAddConversation(conversation))
             router.push(`/c/${conversation.code}`)
         }
 
-        await dispatch(postAddMessageChat({ ...message }))
-        await dispatch(handleEnterSend(""))
-        await dispatch(postAddMessageChatBot({ ...message }))
+        dispatch(postAddMessageChat({ ...message }))
+        dispatch(postAddMessageChatBot({ ...message }))
+        dispatch(handleEnterSend(""))
     }
 
 
