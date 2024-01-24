@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FooterWrapper } from './styles'
 import { Textarea, Button, Loading } from '@/components'
 import { IoIosSend } from "react-icons/io";
@@ -25,7 +25,7 @@ const Footer = () => {
     const { loadingMessage } = useAppSelector((state) => state.messageChatsState)
 
 
-    const handleSendMessage = (e: any) => {
+    const handleSendMessage = async (e: any) => {
         e.preventDefault()
         const conversation = {
             userId: user?.id,
@@ -38,13 +38,13 @@ const Footer = () => {
             conversationCode: code ?? conversation.code
         } as Message
         if (!code) {
-            dispatch(postAddConversation(conversation))
+            await dispatch(postAddConversation(conversation))
             router.push(`/c/${conversation.code}`)
         }
 
-        dispatch(postAddMessageChat({ ...message }))
-        dispatch(postAddMessageChatBot({ ...message }))
-        dispatch(handleEnterSend(""))
+        await dispatch(postAddMessageChat({ ...message }))
+        await dispatch(handleEnterSend(""))
+        await dispatch(postAddMessageChatBot({ ...message }))
     }
 
 
