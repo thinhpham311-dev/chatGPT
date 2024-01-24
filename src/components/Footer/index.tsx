@@ -1,10 +1,10 @@
 'use client'
-import React, { useRef } from 'react'
+import React from 'react'
 import { FooterWrapper } from './styles'
 import { Textarea, Button, Loading } from '@/components'
 import { IoIosSend } from "react-icons/io";
 import { useDispatch } from 'react-redux';
-import { postAddMessageChat, postAddMessageChatBot, getMessageChatsListByConversationCode } from '@/redux/store/slices/messageSlice';
+import { postAddMessageChat, postAddMessageChatBot } from '@/redux/store/slices/messageSlice';
 import { postAddConversation } from '@/redux/store/slices/conversationSlice'
 import { handleEnterSend } from '@/redux/store/slices/stateSlice'
 import { AppDispatch, useAppSelector } from '@/redux/store';
