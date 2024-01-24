@@ -26,6 +26,8 @@ export async function POST(request: Request) {
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
+                { role: "assistant", content: data.content },
+                { role: "system", content: data.content },
                 { role: "user", content: data.content },
             ],
         });
