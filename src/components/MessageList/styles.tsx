@@ -11,7 +11,7 @@ const MessageListWrapper = styled.div(() => [
                     ${tw`py-0 mx-2`}
                 }
                 &--loading{
-                    ${tw`relative`}
+                    ${tw`relative h-[50px] flex items-center justify-center !bg-slate-200`}
                 }
             }
             

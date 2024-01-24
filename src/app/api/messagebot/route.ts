@@ -27,12 +27,12 @@ export async function POST(request: Request) {
             model: "gpt-3.5-turbo",
             messages: [
                 { role: "assistant", content: data.content },
-                { role: "system", content: data.content },
                 { role: "user", content: data.content },
             ],
+            temperature: 0.9,
+            max_tokens: 150,
         });
         const contentbot = await completion.choices[0].message.content
-
 
         const saveMessage = await prisma.message.create({
             data: {

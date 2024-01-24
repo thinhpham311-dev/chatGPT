@@ -37,7 +37,7 @@ const MessageList = () => {
                             )
                         })
                     }
-                    <li className="messageList-inner--content--loading">{loadingMessage && <Loading color="light" />}</li>
+                    {loadingMessage && <li className="messageList-inner--content--loading"><Loading color="light" /></li>}
                 </ul>
             </div>
         </MessageListWrapper>
