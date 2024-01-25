@@ -11,10 +11,12 @@ import { useClerk } from '@clerk/nextjs'
 
 
 const MessageList = () => {
+    const msgEndRef = useRef<HTMLLIElement>(null)
     const { user } = useClerk()
     const { code } = useParams()
     const dispatch = useDispatch<AppDispatch>()
     const { messageChats, loadingMessage } = useAppSelector((state) => state.messageChatsState)
+
 
     useEffect(() => {
         if (code) {
@@ -22,6 +24,10 @@ const MessageList = () => {
         }
     }, [dispatch, code])
 
+
+    useEffect(() => {
+        msgEndRef.current?.scrollIntoView()
+    }, [messageChats])
 
     return (
         <MessageListWrapper >
@@ -37,7 +43,7 @@ const MessageList = () => {
                             )
                         })
                     }
-                    {loadingMessage && <li className="messageList-inner--content--loading"><Loading color="light" /></li>}
+                    {loadingMessage && <li className="messageList-inner--content--loading" ref={msgEndRef}><Loading color="light" /></li>}
                 </ul>
             </div>
         </MessageListWrapper>

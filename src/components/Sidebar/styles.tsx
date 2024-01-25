@@ -37,9 +37,12 @@ const SidebarWrapper = styled.div<sidebarProps>(({ $isShow }) => [
                 ${tw`border-b-[0.5px] border-white shadow-lg`}
             }
             &--input{
-                ${tw`flex items-center gap-x-2`}
+                ${tw`flex items-center gap-x-2 w-full`}
                 input{
-                    ${tw`text-black`}
+                    ${tw`text-black w-5/6`}
+                }
+                button{
+                    ${tw`w-1/6`}
                 }
             }
         }

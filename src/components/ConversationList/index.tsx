@@ -4,10 +4,11 @@ import { Loading, DropDownMenu, Button, Input } from "@/components"
 import { ConversationWrapper } from './styles'
 import { AppDispatch, useAppSelector } from '@/redux/store'
 import { deleteRemoveConversation, putUpdateConversation } from '@/redux/store/slices/conversationSlice'
+import { getMessageChatsListByConversationCode } from '@/redux/store/slices/messageSlice'
 import { handleEnterSend, openInput, closeInput } from '@/redux/store/slices/stateSlice'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'next/navigation'
-import { Conversation } from '@prisma/client'
+import { Conversation, Message } from '@prisma/client'
 import { useClerk } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { VscEllipsis } from "react-icons/vsc";
